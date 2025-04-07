@@ -2,14 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Book, CheckSquare, FileText, List } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import './css/Home.css'; // путь до твоего css файла
+import './css/Home.css'; 
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
 
   return (
     <div>
-      {/* Hero Section */}
+     
       <section className="hero-section">
         <div className="container">
           <div className="hero-content">
@@ -39,7 +39,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features */}
+     
       <section className="section">
         <div className="container">
           <h2 className="text-center">Наши возможности</h2>
@@ -68,7 +68,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* CTA */}
+     
       <section className="cta-section section">
         <div className="container">
           <h2>Готовы начать изучать китайский?</h2>
@@ -80,47 +80,10 @@ const Home = () => {
           )}
         </div>
       </section>
-
-      {/* Testimonials */}
-      <section className="section">
-        <div className="container">
-          <h2 className="text-center">Отзывы наших учеников</h2>
-          <div className="testimonials-grid">
-            <div className="card">
-              <p>«Благодаря КитайскийПлюс я смог быстро освоить базовый словарный запас и грамматику. Рекомендую всем!»</p>
-              <div className="testimonial-info">
-                <div className="testimonial-avatar" />
-                <div>
-                  <h4>Алексей П.</h4>
-                  <p>Изучает 6 месяцев</p>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <p>«Очень нравится система тестов и упражнений. Постоянная практика помогает запоминать новые слова и конструкции.»</p>
-              <div className="testimonial-info">
-                <div className="testimonial-avatar" />
-                <div>
-                  <h4>Мария К.</h4>
-                  <p>Изучает 1 год</p>
-                </div>
-              </div>
-            </div>
-            <div className="card">
-              <p>«Интерфейс удобный, материалы качественные. За три месяца я достиг большего прогресса, чем за год самостоятельных занятий.»</p>
-              <div className="testimonial-info">
-                <div className="testimonial-avatar" />
-                <div>
-                  <h4>Дмитрий С.</h4>
-                  <p>Изучает 3 месяца</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+    </div> 
   );
 };
 
 export default Home;
+
+
