@@ -1,9 +1,9 @@
 {
   "name": "myprogect",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-   "start": "node server.js"
+    "start": "nodemon ./back/server.js"
   },
   "author": "Kate",
   "license": "ISC",
@@ -18,9 +18,8 @@
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
     "mongoose": "^8.13.1",
-    "morgan": "^1.10.0"
-},
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.9"
+  },
   "description": ""
-  
-  
 }
