@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Tests from './pages/Tests';
+import Dictionary from './pages/Dictionary';
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/tests" element={<Tests />} />
+          <Route path="/dictionary" element={<Dictionary />} />
         </Routes>
       </main>
     </div>

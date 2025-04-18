@@ -5,20 +5,31 @@ import { useAuth } from '../contexts/AuthContext';
 import './css/Home.css'; 
 
 const Home = () => {
-  const { isAuthenticated } = useAuth();
+
+  const { isAuthenticated, logout } = useAuth(); 
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Ошибка при выходе:', error);
+    }
+  };
 
   return (
     <div>
-     
       <section className="main-section">
+          {isAuthenticated && (<button type="button" className="logout-button" onClick={handleLogout}>
+            Выйти
+          </button>)}
         <div className="container">
           <div className="main-content">
             <div className="main-text">
               <h1>Изучайте китайский язык эффективно</h1>
               <p>Комплексная платформа для изучения китайского языка с тестами, текстами, упражнениями и интерактивным словарем.</p>
               {isAuthenticated ? (
+                
                 <div className="main-button">
-                  <Link to="/dictionary" className="button button-dictionary">Начать обучение</Link>
+                 <Link to="/dictionary" className="button button-dictionary">Начать обучение</Link>
                   <Link to="/tests" className="button button-tests">Перейти к тестам</Link>
                 </div>
               ) : (
