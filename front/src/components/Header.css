@@ -1,0 +1,66 @@
+.header {
+    background-color: white;
+    color: #a01515;
+    border-radius: 12px;
+    
+    padding: 0.5rem 2rem;
+    height: 80px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    height: 100%;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #a01515;
+    
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links li a {
+    color: #a01515;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 6px 10px;
+    transition: background-color 0.3s ease, border-radius 0.3s;
+  }
+  
+  .nav-links li a:hover,
+  .nav-links li a:focus {
+    background-color: #ffecec;
+    border-radius: 6px;
+  }
+  
+  .logout-link {
+    background: none;
+    border: none;
+    color: #a01515;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 10px;
+    transition: background-color 0.3s ease, border-radius 0.3s;
+    text-decoration: none;
+  }
+  
+  .logout-link:hover,
+  .logout-link:focus {
+    background-color: #ffecec;
+    border-radius: 6px;
+  }

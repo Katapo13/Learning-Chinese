@@ -10,6 +10,7 @@ function App() {
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
         <Routes>
+          {/* пути к определённым элементам сайта*/ }
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
