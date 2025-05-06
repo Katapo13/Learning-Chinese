@@ -144,10 +144,10 @@
     background:  #a01515;
     color: white;
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 2rem 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
+    margin-bottom: 100px;
   }
   
   .cta-section h2 {

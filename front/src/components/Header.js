@@ -1,53 +1,148 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Для навигации по маршрутам
-import { useAuth } from '../contexts/AuthContext'; // Контекст авторизации
-import './Header.css'; // Стили для шапки сайта
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Book, User, Menu, X, LogOut } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import './Header.css';
 
 const Header = () => {
-  // Достаём из контекста данные об авторизации и функцию выхода
-  const { isAuthenticated, logout } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  // Обработчик выхода из аккаунта
-  const handleLogout = async () => {
-    try {
-      await logout(); // Выход из аккаунта
-    } catch (error) {
-      console.error('Ошибка при выходе:', error); // Ловим возможные ошибки
-    }
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+    setIsOpen(false);
   };
 
   return (
     <header className="header">
-      <div className="container header-content">
-        {/* Логотип сайта */}
-        <h1 className="logo">Learn Chinese</h1>
+      <div className="header-container">
+        <div className="header-content">
+          <div className="header-brand">
+            <Link to="/" className="brand-link">
+              <Book className="brand-icon" />
+              <span className="brand-text-h">汉语学习</span>
+            </Link>
+            <div className="header-links">
+              <Link to="/" className="header-link">Главная</Link>
+              <Link to="/dictionary" className="header-link">Словарь</Link>
+              <Link to="/tests" className="header-link">Тесты</Link>
+              <Link to="/texts" className="header-link">Тексты</Link>
+              <Link to="/exercises" className="header-link">Упражнения</Link>
+            </div>
+          </div>
+          
+          <div className="user-actions">
+          {user ? (
+            <div className="user-actions">
+              <Link to="/profile" className="user-profile">
+                <User className="user-icon-man" />
+                <span>{user.name}</span>
+              </Link>
+              <button onClick={handleLogout} className="logout-btn">
+                <LogOut className="user-icon-logout" />
+                <span>Выйти</span>
+              </button>
+            </div>
+          ) : (
+              <div className="auth-buttons">
+                <Link to="/login" className="btn-outline">Войти</Link>
+                <Link to="/register" className="btn-primary">Регистрация</Link>
+              </div>
+            )}
+          </div>
+          
+          <div className="mobile-menu-btn">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="mobile-menu-btn"
+            >
+              {isOpen ? <X className="mobile-menu-icon" /> : <Menu className="mobile-menu-icon" />}
+            </button>
+          </div>
+        </div>
+      </div>
 
-        {/* Навигационное меню */}
-        <nav>
-          <ul className="nav-links">
-            {/* Ссылки на разделы сайта */}
-            <li><Link to="/">Главная</Link></li>
-            <li><Link to="/dictionary">Словарь</Link></li>
-            <li><Link to="/tests">Тесты</Link></li>
-
-            {/* Если пользователь авторизован — показать кнопку выхода */}
-            {isAuthenticated ? (
-              <li>
+      {/* Mobile menu */}
+      {isOpen && (
+        <div className="mobile-menu">
+          <div className="mobile-links">
+            <Link 
+              to="/" 
+              className="mobile-link"
+              onClick={() => setIsOpen(false)}
+            >
+              Главная
+            </Link>
+            <Link 
+              to="/dictionary" 
+              className="mobile-link"
+              onClick={() => setIsOpen(false)}
+            >
+              Словарь
+            </Link>
+            <Link 
+              to="/tests" 
+              className="mobile-link"
+              onClick={() => setIsOpen(false)}
+            >
+              Тесты
+            </Link>
+            <Link 
+              to="/texts" 
+              className="mobile-link"
+              onClick={() => setIsOpen(false)}
+            >
+              Тексты
+            </Link>
+            <Link 
+              to="/exercises" 
+              className="mobile-link"
+              onClick={() => setIsOpen(false)}
+            >
+              Упражнения
+            </Link>
+          </div>
+          
+          <div className="mobile-auth-section">
+            {user ? (
+              <div className="mobile-links">
+                <Link
+                  to="/profile"
+                  className="mobile-link"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Профиль
+                </Link>
                 <button
-                  type="button"
-                  className="logout-link"
                   onClick={handleLogout}
+                  className="mobile-link"
                 >
                   Выйти
                 </button>
-              </li>
+              </div>
             ) : (
-              // Если не авторизован — показать ссылку на вход
-              <li><Link to="/login">Вход</Link></li>
+              <div className="mobile-auth-links">
+                <Link
+                  to="/login"
+                  className="mobile-login-btn"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Войти
+                </Link>
+                <Link
+                  to="/register"
+                  className="mobile-register-btn"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Регистрация
+                </Link>
+              </div>
             )}
-          </ul>
-        </nav>
-      </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
