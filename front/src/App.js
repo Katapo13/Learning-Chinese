@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Tests from './pages/Tests';
 import Dictionary from './pages/Dictionary';
+import Texts from './pages/Texts.js';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/tests" element={<Tests />} />
           <Route path="/dictionary" element={<Dictionary />} />
+          <Route path="/texts" element={<Texts />} />
         </Routes>
       </main>
     </div>
