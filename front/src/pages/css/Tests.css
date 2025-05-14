@@ -1,14 +1,19 @@
 .container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+   
   }
   
   .header {
     display: flex;
     align-items: center;
     margin-bottom: 2rem;
-  }
+  } 
   
   .header h1 {
     font-size: 2rem;
@@ -18,7 +23,7 @@
     align-items: center;
   }
   
-  .header h1 svg {
+ .header h1 svg {
     margin-right: 0.5rem;
   }
   

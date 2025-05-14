@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Tests from './pages/Tests';
 import Dictionary from './pages/Dictionary';
 import Texts from './pages/Texts.js';
+import Exercises from './pages/Exercises.js';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/tests" element={<Tests />} />
           <Route path="/dictionary" element={<Dictionary />} />
           <Route path="/texts" element={<Texts />} />
+          <Route path="/exercises" element={<Exercises />} />
         </Routes>
       </main>
     </div>

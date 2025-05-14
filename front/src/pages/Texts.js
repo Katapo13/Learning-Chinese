@@ -60,24 +60,24 @@ const Texts = () => {
     setSelectedText(null);
   };
 
-  {/*const highlightKeywords = (content) => {
-    if (!selectedText) return content;
+  // const highlightKeywords = (content) => {
+  //   if (!selectedText) return content;
 
-    let highlightedContent = content;
-   // const dictionaryWords = words.map(word => word.chinese);
-    //const allKeywords = [...new Set([...dictionaryWords, ...selectedText.keywords])];
-    //allKeywords.sort((a, b) => b.length - a.length);
+  //   let highlightedContent = content;
+  //  // const dictionaryWords = words.map(word => word.chinese);
+  //   //const allKeywords = [...new Set([...dictionaryWords, ...selectedText.keywords])];
+  //   //allKeywords.sort((a, b) => b.length - a.length);
     
-    allKeywords.forEach(keyword => {
-      const regex = new RegExp(keyword, 'g');
-      highlightedContent = highlightedContent.replace(
-        regex, 
-        `<span class="highlighted-word">${keyword}</span>`
-      );
-    });
+  //  allKeywords.forEach(keyword => {
+  //     const regex = new RegExp(keyword, 'g');
+  //     highlightedContent = highlightedContent.replace(
+  //       regex, 
+  //       `<span class="highlighted-word">${keyword}</span>`
+  //     );
+  //   });
 
-    return highlightedContent;
-   };*/}
+  //   return highlightedContent;
+  //  };
 
   const getLevelLabel = (level) => {
     switch (level) {
@@ -155,9 +155,9 @@ const Texts = () => {
                 </span>
             </div>
             
-            {/*<div className="text-content" dangerouslySetInnerHTML={{ 
+            {/* <div className="text-content" dangerouslySetInnerHTML={{ 
                 __html: highlightKeywords(selectedText.content) 
-            }} />
+            }} /> */}
             
             <div className="translation-button">
                 <button
@@ -166,7 +166,7 @@ const Texts = () => {
                 >
                 {showTranslation ? 'Скрыть перевод' : 'Показать перевод'}
                 </button>
-            </div>*/}
+            </div>
             
             {showTranslation && (
                 <div className="translation-container">

@@ -95,14 +95,16 @@
   }
   
   .back-button {
-    color: #7c3aed;
     display: flex;
     align-items: center;
     margin-bottom: 1.5rem;
+    color: #a01515;
+  
   }
   
   .back-button:hover {
-    color: #6d28d9;
+    color:  #d91b1b;;
+    text-decoration: underline;
   }
   
   .text-detail-header {
@@ -127,7 +129,7 @@
   
   .highlighted-word {
     background-color: #ede9fe;
-    color: #6d28d9;
+    color: #a01515;
     padding: 0.125rem 0.25rem;
     border-radius: 0.25rem;
   }
@@ -165,7 +167,7 @@
   
   .keyword {
     background-color: #ede9fe;
-    color: #6d28d9;
+    color: #a01515;
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.875rem;
@@ -185,8 +187,8 @@
   }
   
   .btn-outline {
-    border: 1px solid #7c3aed;
-    color: #7c3aed;
+    border: 1px solid #a01515;
+    color: #a01515;
     background-color: white;
   }
   
