@@ -1,10 +1,11 @@
 .texts-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .texts-header {
+  margin-top: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,7 +22,7 @@
 }
   
 .texts-header h1 svg {
-    margin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
   
 .texts-title {

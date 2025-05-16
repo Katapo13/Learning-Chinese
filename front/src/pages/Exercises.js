@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { CheckCircle, X, HelpCircle } from 'lucide-react';
-//import { useDictionary } from '../contexts/DictionaryContext';
 import { List } from 'lucide-react'; // Иконка списка
 import { useAuth } from '../contexts/AuthContext';
 import './css/Exercises.css';
@@ -9,8 +8,7 @@ import Footer from '../components/Footer'; // Компонент футера
 
 
 const Exercises = () => {
-  //const { words } = useDictionary();
-  const { user, updateUser } = useAuth();
+  //const { user, updateUser } = useAuth();
   
   const [selectedType, setSelectedType] = useState('all');
   const [selectedExercise, setSelectedExercise] = useState(null);
@@ -42,7 +40,7 @@ const Exercises = () => {
     {
       id: 'order-1',
       type: 'sentence-ordering',
-      title: 'Порядок диалога',
+      title: 'Диалог знакомства',
       level: 'beginner',
       instructions: 'Расположите предложения в правильном порядке',
       content: {
@@ -75,6 +73,42 @@ const Exercises = () => {
           { character: '人', pinyin: 'rén' }
         ]
       }
+    },
+
+    {
+        id: 'char-2',
+        type: 'character-writing',
+        title: 'Базовые иероглифы',
+        level: 'intermediate',
+        instructions: 'Введите пиньинь для следующих иероглифов',
+        content: {
+          characters: [
+            { character: '光盘', pinyin: 'guāngpán' },
+            { character: '照片', pinyin: 'zhàopiàn' },
+            { character: '司机', pinyin: 'sījī' },
+            { character: '飞机', pinyin: 'fēijī' },
+            { character: '舞蹈', pinyin: 'wǔdǎo' }
+          ]
+        }
+    },
+
+    {
+        id: 'char-3',
+        type: 'character-writing',
+        title: 'Иероглифы фруктов',
+        level: 'beginner',
+        instructions: 'Введите пиньинь для следующих иероглифов',
+        content: {
+          characters: [
+            { character: '苹果', pinyin: 'píngguǒ' },
+            { character: '香蕉', pinyin: 'xiāngjiāo' },
+            { character: '葡萄', pinyin: 'pútáo' },
+            { character: '草莓', pinyin: 'сǎoméi' },
+            { character: '梨', pinyin: 'lí' },
+            { character: '荔枝', pinyin: 'lìzhī' },
+            { character: '普通话', pinyin: 'pǔtōnghuà' },
+          ]
+        }
     },
     // ... другие упражнения
   ];
@@ -115,18 +149,18 @@ const Exercises = () => {
   const handleSubmit = () => {
     setIsSubmitted(true);
     
-    if (user && selectedExercise) {
-      const updatedCompletedLessons = [...(user.progress?.completedLessons || [])];
-      if (!updatedCompletedLessons.includes(selectedExercise.id)) {
-        updatedCompletedLessons.push(selectedExercise.id);
-        updateUser({
-          progress: {
-            ...user.progress,
-            completedLessons: updatedCompletedLessons
-          }
-        });
-      }
-    }
+    // if (user && selectedExercise) {
+    //   const updatedCompletedLessons = [...(user.progress?.completedLessons || [])];
+    //   if (!updatedCompletedLessons.includes(selectedExercise.id)) {
+    //     updatedCompletedLessons.push(selectedExercise.id);
+    //     updateUser({
+    //       progress: {
+    //         ...user.progress,
+    //         completedLessons: updatedCompletedLessons
+    //       }
+    //     });
+    //   }
+    // }
   };
 
   const handleReset = () => {
@@ -216,7 +250,7 @@ const Exercises = () => {
             <h1>
                 <List size={32} /> {/* Иконка "список" */}
                 Упражнения 
-                </h1>
+            </h1>
             <div>
               <select
                 className="select-input"
@@ -327,64 +361,77 @@ const Exercises = () => {
           
           {selectedExercise.type === 'sentence-ordering' && (
             <div className="sentence-ordering-list">
-              {userAnswers.map((sentenceId, index) => {
+                {userAnswers.map((sentenceId, index) => {
                 const sentence = selectedExercise.content.sentences.find(
-                  s => s.id.toString() === sentenceId
+                    s => s.id.toString() === sentenceId
                 );
                 return (
-                  <div
+                    <div
                     key={index}
                     className={`sentence-item ${
-                      isSubmitted 
+                        isSubmitted 
                         ? sentenceId === selectedExercise.content.correctOrder[index].toString()
-                          ? 'correct'
-                          : 'incorrect'
+                            ? 'correct'
+                            : 'incorrect'
                         : ''
                     }`}
-                  >
+                    >
                     <span className="sentence-text">{sentence?.text}</span>
                     <div className="sentence-controls">
-                      {!isSubmitted && (
+                        {!isSubmitted && (
                         <>
-                          <button
+                            <button
                             onClick={() => index > 0 && handleReorderSentence(index, index - 1)}
                             disabled={index === 0}
                             className="sentence-button"
-                          >
+                            >
                             ↑
-                          </button>
-                          <button
+                            </button>
+                            <button
                             onClick={() => index < userAnswers.length - 1 && handleReorderSentence(index, index + 1)}
                             disabled={index === userAnswers.length - 1}
                             className="sentence-button"
-                          >
+                            >
                             ↓
-                          </button>
+                            </button>
                         </>
-                      )}
-                      {isSubmitted && (
+                        )}
+                        {isSubmitted && (
                         sentenceId === selectedExercise.content.correctOrder[index].toString() ? (
-                          <CheckCircle className="icon-correct" />
+                            <CheckCircle className="icon-correct" />
                         ) : (
-                          <X className="icon-incorrect" />
+                            <X className="icon-incorrect" />
                         )
-                      )}
+                        )}
                     </div>
-                  </div>
+                    </div>
                 );
-              })}
-              
-              {isSubmitted && (
+                })}
+                
+                {isSubmitted && (
                 <div className={`feedback-message ${
-                  checkSentenceOrderAnswer() ? 'feedback-correct' : 'feedback-incorrect'
+                    checkSentenceOrderAnswer() ? 'feedback-correct' : 'feedback-incorrect'
                 }`}>
-                  {checkSentenceOrderAnswer() 
+                    {checkSentenceOrderAnswer() 
                     ? 'Отлично! Порядок предложений верный.' 
                     : 'Порядок предложений неверный. Попробуйте еще раз.'}
                 </div>
-              )}
+                )}
+
+                {/*блок с подсказками */}
+                {isSubmitted && !checkSentenceOrderAnswer() && showHint && (
+                <div className="hint-section">
+                    <h4>Правильный порядок:</h4>
+                    <ol>
+                    {selectedExercise.content.correctOrder.map(id => {
+                        const sentence = selectedExercise.content.sentences.find(s => s.id === id);
+                        return <li key={id}>{sentence.text}</li>;
+                    })}
+                    </ol>
+                </div>
+                )}
             </div>
-          )}
+            )}
           
           {selectedExercise.type === 'character-writing' && (
             <div className="character-grid">
