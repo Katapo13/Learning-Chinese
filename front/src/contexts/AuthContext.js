@@ -1,41 +1,63 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import AuthService from '../services/AuthService';
 
-//Создаем контекст
 const AuthContext = createContext();
 
-//Провайдер для обертывания всего приложения
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export function useAuth() {
+  return useContext(AuthContext);
+}
 
-  // При монтировании проверим, авторизован ли пользователь
+export function AuthProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Проверяем наличие пользователя при загрузке приложения
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
     }
+    setLoading(false);
   }, []);
 
-  // Функции входа и выхода
-  const login = (userData) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
-  };
+  // Функция регистрации
+  async function register(email, userName, password) {
+    try {
+      const response = await AuthService.register(email, userName, password);
+      setCurrentUser(response);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  const logout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-  };
+  // Функция входа
+  async function login(email, password) {
+    try {
+      const response = await AuthService.login(email, password);
+      setCurrentUser(response);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-  const isAuthenticated = !!user;
+  // Функция выхода
+  function logout() {
+    AuthService.logout();
+    setCurrentUser(null);
+  }
+
+  const value = {
+    currentUser,
+    register,
+    login,
+    logout
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
-      {children}
+    <AuthContext.Provider value={value}>
+      {!loading && children}
     </AuthContext.Provider>
   );
-};
-
-//Хук для доступа к AuthContext
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+}

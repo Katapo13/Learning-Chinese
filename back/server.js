@@ -4,11 +4,13 @@ const authRouter = require('./ControlUsers/authRouter')
 const port = process.env.PORT || 5000
 
 const app = express()
+
 app.use(express.json())
-app.use("/auth", authRouter)
+app.use("/api/auth", authRouter)//url по которому будет слушаться
 
 const start = async () => {
   try {
+    //подключение к бд
     await mongoose.connect('mongodb://127.0.0.1:27017/WebSait', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
