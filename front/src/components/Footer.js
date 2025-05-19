@@ -25,6 +25,7 @@ const Footer = () => {
                 <li className="link-item"><a href="/dictionary">Словарь</a></li>
                 <li className="link-item"><a href="/tests">Тесты</a></li>
                 <li className="link-item"><a href="/texts">Тексты</a></li>
+                <li className="link-item"><a href="/exercises">Упражнения</a></li>
               </ul>
             </div>
             
