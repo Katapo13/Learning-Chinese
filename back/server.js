@@ -1,12 +1,20 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors') // нужно так как бэк и фронт на разных портах
 const authRouter = require('./ControlUsers/authRouter')
+const dictionaryRouter = require('./ControlDictionary/dictionaryRouter')
+//const textRouter = require('./ControlText/textRouter')
 const port = process.env.PORT || 5000
 
 const app = express()
+app.use(cors()); //подклбючаем корс
 
+//позволяет express распознавать json в запросах
 app.use(express.json())
-app.use("/api/auth", authRouter)//url по которому будет слушаться
+app.use("/api/auth", authRouter)//url по которому будет слушаться для авторизации
+app.use("/api", dictionaryRouter)//url по которому будет слушаться для словаря
+//app.use("/api", textRouter)//url по которому будет слушаться для текстов
+
 
 const start = async () => {
   try {

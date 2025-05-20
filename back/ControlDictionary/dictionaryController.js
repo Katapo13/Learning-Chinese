@@ -12,3 +12,5 @@ class dictionaryController{
         }
     }
 }
+
+module.exports = new dictionaryController();

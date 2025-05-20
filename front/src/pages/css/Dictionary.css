@@ -21,13 +21,15 @@
     align-items: center;
 }
 
-.texts-header h1 svg {
+.dictionary-header h1 svg {
   margin-right: 0.5rem;
 }
 
 .dictionary-title {
-  font-size: 1.875rem;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
 }
 
 .card {

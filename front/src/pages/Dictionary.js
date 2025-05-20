@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { Search, Filter, ArrowDown, ArrowUp } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Book } from 'lucide-react';
-import './css/Dictionary.css';
+import topics from '../contexts/topicContext';
+import partsOfSpeech from '../contexts/partOfSpeachContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import './css/Dictionary.css';
+
 
 const Dictionary = () => {
   const { user } = useAuth();
@@ -19,7 +22,7 @@ const Dictionary = () => {
   const [sortDirection, setSortDirection] = useState('asc');
   const [filteredWords, setFilteredWords] = useState([]);
   
-  // Состояния для формы добавления (закомментировано)
+  // Состояния для формы добавления 
   /*
   const [showAddForm, setShowAddForm] = useState(false);
   const [newWord, setNewWord] = useState({
@@ -30,54 +33,20 @@ const Dictionary = () => {
     topic: ''
   });
   */
-
-  // Темы и части речи
-  const topics = [
-    { value: 'all', label: 'Все темы' },
-    { value: 'greetings', label: 'Приветствия' },
-    { value: 'education', label: 'Образование' },
-    { value: 'food', label: 'Еда' },
-    { value: 'geography', label: 'География' },
-    { value: 'relationships', label: 'Отношения' },
-    { value: 'family', label: 'Семья' },
-  ];
   
-  const partsOfSpeech = [
-    { value: 'all', label: 'Все части речи' },
-    { value: 'noun', label: 'Существительное' },
-    { value: 'verb', label: 'Глагол' },
-    { value: 'adjective', label: 'Прилагательное' },
-    { value: 'adverb', label: 'Наречие' },
-    { value: 'phrase', label: 'Фраза' }
-  ];
-
-  // Загрузка слов при монтировании компонента
+  // Загрузка слов из бэка
   useEffect(() => {
     const fetchWords = async () => {
-        setTimeout(() => {
-          const mockWords = [
-            { id: 1, chinese: '你好', pinyin: 'nǐ hǎo', translation: 'привет', partOfSpeech: 'phrase', topic: 'greetings' },
-            { id: 2, chinese: '谢谢', pinyin: 'xiè xie', translation: 'спасибо', partOfSpeech: 'phrase', topic: 'greetings' },
-            { id: 3, chinese: '学校', pinyin: 'xué xiào', translation: 'школа', partOfSpeech: 'noun', topic: 'education' },
-            { id: 4, chinese: '美', pinyin: 'Měi', translation: 'красивый', partOfSpeech: 'adjective', topic: 'relationships' },
-            { id: 5, chinese: '爱', pinyin: 'Ài', translation: 'любовь', partOfSpeech: 'noun', topic: 'relationships' },
-            { id: 6, chinese: '苹果', pinyin: 'Píngguǒ', translation: 'яблоко', partOfSpeech: 'noun', topic: 'food' },
-            { id: 7, chinese: '老师', pinyin: 'Lǎoshī', translation: 'учитель', partOfSpeech: 'noun', topic: 'education' },
-            { id: 8, chinese: '吃', pinyin: 'Chī', translation: 'кушать', partOfSpeech: 'verb', topic: 'Kěkǒu' },
-            { id: 9, chinese: '飞机', pinyin: 'Fēijī', translation: 'самолёт', partOfSpeech: 'noun', topic: 'geography' },
-            { id: 10, chinese: '中国', pinyin: 'Zhōngguó', translation: 'Китай', partOfSpeech: 'noun', topic: 'geography' },
-            { id: 11, chinese: '朋友', pinyin: 'Péngyǒu', translation: 'друг', partOfSpeech: 'noun', topic: 'relationships' },
-            { id: 12, chinese: '我爱你', pinyin: 'wǒ ài nǐ', translation: 'я люблю тебя', partOfSpeech: 'phrase', topic: 'relationships' },
-            { id: 13, chinese: '爸爸', pinyin: 'Bàba', translation: 'папа', partOfSpeech: 'noun', topic: 'family' },
-            { id: 14, chinese: '妈妈', pinyin: 'Māmā', translation: 'мама', partOfSpeech: 'noun', topic: 'family' },
-            { id: 15, chinese: '汤', pinyin: 'Tāng', translation: 'суп', partOfSpeech: 'noun', topic: 'food' },
-            { id: 16, chinese: '可口', pinyin: 'Kěkǒu', translation: 'вкусный', partOfSpeech: 'adjective', topic: 'Kěkǒu' },
-            { id: 17, chinese: '等', pinyin: 'Děng', translation: 'ждать', partOfSpeech: 'verb', topic: 'relationships' }
-
-          ];
-          setWords(mockWords);
-          setLoading(false);
-        }, 500);
+      try {
+        const response = await fetch('http://localhost:5000/api/dictionary');
+        const data = await response.json();
+        setWords(data);
+        setLoading(false);
+      } catch (e) {
+        console.error('Ошибка загрузки слов:', e);
+        setError('Не удалось загрузить слова');
+        setLoading(false);
+      }
     };
     
     fetchWords();
@@ -313,7 +282,7 @@ const Dictionary = () => {
           ) : (
             <div className="words-grid">
               {filteredWords.map((word) => (
-                <div key={word.id} className="word-card">
+                <div key={word._id} className="word-card">
                   <div className="word-chinese">{word.chinese}</div>
                   <div className="word-pinyin">{word.pinyin}</div>
                   <div className="word-translation">{word.translation}</div>
