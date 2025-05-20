@@ -5,6 +5,7 @@ const Router = require('express')
 const router = new Router ()
 const controller = require('./textController')
 
-router.get('/texts', controller.getText)
+//для прослушки гет запроса по этому адресу
+router.get('/text', controller.getTexts)
 
 module.exports = router
