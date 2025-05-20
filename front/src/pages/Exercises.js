@@ -1,125 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CheckCircle, X, HelpCircle } from 'lucide-react';
 import { List } from 'lucide-react'; // Иконка списка
 import { useAuth } from '../contexts/AuthContext';
+import getLevelLabel from '../contexts/levelContext';
+import getInformationLabel from '../contexts/informationExerciseContext';
+import getTypeLabel from '../contexts/typeExerciseContext';
 import './css/Exercises.css';
 import Header from '../components/Header'; // Компонент шапки
 import Footer from '../components/Footer'; // Компонент футера
 
 
 const Exercises = () => {
-  //const { user, updateUser } = useAuth();
-  
   const [selectedType, setSelectedType] = useState('all');
-  const [selectedExercise, setSelectedExercise] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showHint, setShowHint] = useState(false);
-
-  const fillInBlanksExercises = [
-    {
-      id: 'fill-1',
-      type: 'fill-in-blanks',
-      title: 'Основные приветствия',
-      level: 'beginner',
-      instructions: 'Заполните пропуски правильными словами',
-      content: {
-        sentences: [
-          { text: '早上好！___ 起床了吗？', answer: '你' },
-          { text: '我___ 中国人。', answer: '是' },
-          { text: '他___ 看书。', answer: '在' },
-          { text: '她___ 吃饭吗？', answer: '要' },
-          { text: '谢谢___ 的帮助。', answer: '你' }
-        ]
-      }
-    },
-    // ... другие упражнения
-  ];
-
-  const sentenceOrderingExercises = [
-    {
-      id: 'order-1',
-      type: 'sentence-ordering',
-      title: 'Диалог знакомства',
-      level: 'beginner',
-      instructions: 'Расположите предложения в правильном порядке',
-      content: {
-        sentences: [
-          { id: 1, text: '你好！' },
-          { id: 2, text: '你好！你叫什么名字？' },
-          { id: 3, text: '我叫小明。你呢？' },
-          { id: 4, text: '我叫小红。很高兴认识你！' },
-          { id: 5, text: '我也很高兴认识你！' }
-        ],
-        correctOrder: [1, 2, 3, 4, 5]
-      }
-    },
-    // ... другие упражнения
-  ];
-
-  const characterWritingExercises = [
-    {
-      id: 'char-1',
-      type: 'character-writing',
-      title: 'Базовые иероглифы',
-      level: 'beginner',
-      instructions: 'Введите пиньинь для следующих иероглифов',
-      content: {
-        characters: [
-          { character: '你', pinyin: 'nǐ' },
-          { character: '好', pinyin: 'hǎo' },
-          { character: '中', pinyin: 'zhōng' },
-          { character: '国', pinyin: 'guó' },
-          { character: '人', pinyin: 'rén' }
-        ]
-      }
-    },
-
-    {
-        id: 'char-2',
-        type: 'character-writing',
-        title: 'Базовые иероглифы',
-        level: 'intermediate',
-        instructions: 'Введите пиньинь для следующих иероглифов',
-        content: {
-          characters: [
-            { character: '光盘', pinyin: 'guāngpán' },
-            { character: '照片', pinyin: 'zhàopiàn' },
-            { character: '司机', pinyin: 'sījī' },
-            { character: '飞机', pinyin: 'fēijī' },
-            { character: '舞蹈', pinyin: 'wǔdǎo' }
-          ]
+  const [exercises, setExercises] = useState([]);
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+    //получаем тесты с бд
+    useEffect(() => {
+      const fetchExercises = async () => {
+        try {
+          const response = await fetch('http://localhost:5000/api/exercise');
+          const data = await response.json();
+          setExercises(data);
+          setLoading(false);
+        } catch (e) {
+          console.error('Ошибка загрузки тестов:', e);
+          setError('Не удалось загрузить тесты');
+          setLoading(false);
         }
-    },
+      };
+      
+      fetchExercises();
+    }, []);
 
-    {
-        id: 'char-3',
-        type: 'character-writing',
-        title: 'Иероглифы фруктов',
-        level: 'beginner',
-        instructions: 'Введите пиньинь для следующих иероглифов',
-        content: {
-          characters: [
-            { character: '苹果', pinyin: 'píngguǒ' },
-            { character: '香蕉', pinyin: 'xiāngjiāo' },
-            { character: '葡萄', pinyin: 'pútáo' },
-            { character: '草莓', pinyin: 'сǎoméi' },
-            { character: '梨', pinyin: 'lí' },
-            { character: '荔枝', pinyin: 'lìzhī' },
-            { character: '普通话', pinyin: 'pǔtōnghuà' },
-          ]
-        }
-    },
-    // ... другие упражнения
-  ];
 
-  const allExercises = [...fillInBlanksExercises, ...sentenceOrderingExercises, ...characterWritingExercises];
+
+   const allExercises = exercises;
   
-  const filteredExercises = selectedType === 'all' 
+   const filteredExercises = selectedType === 'all' 
     ? allExercises 
     : allExercises.filter(exercise => exercise.type === selectedType);
 
-  const handleExerciseClick = (exercise) => {
+   const handleExerciseClick = (exercise) => {
     setSelectedExercise(exercise);
     
     let initialAnswers = [];
@@ -128,7 +54,8 @@ const Exercises = () => {
     } else if (exercise.type === 'sentence-ordering') {
       const shuffledIndices = [...exercise.content.sentences]
         .sort(() => 0.5 - Math.random())
-        .map(s => s.id.toString());
+        .map(s => (s && s.id !== undefined ? s.id.toString() : ''))
+
       initialAnswers = shuffledIndices;
     } else if (exercise.type === 'character-writing') {
       initialAnswers = new Array(exercise.content.characters.length).fill('');
@@ -223,23 +150,6 @@ const Exercises = () => {
     return normalize(userAnswer?.trim().toLowerCase()) === normalize(correctAnswer?.trim().toLowerCase());
   };
 
-  const getLevelLabel = (level) => {
-    switch (level) {
-      case 'beginner': return 'Начальный';
-      case 'intermediate': return 'Средний';
-      case 'advanced': return 'Продвинутый';
-      default: return level;
-    }
-  };
-
-  const getTypeLabel = (type) => {
-    switch (type) {
-      case 'fill-in-blanks': return 'Заполнение пробелов';
-      case 'sentence-ordering': return 'Порядок предложений';
-      case 'character-writing': return 'Написание иероглифов';
-      default: return type;
-    }
-  };
 
   return (
     <div className="exercises-container">
@@ -268,7 +178,7 @@ const Exercises = () => {
           <div className="exercises-grid">
             {filteredExercises.map(exercise => (
               <div 
-                key={exercise.id} 
+                key={exercise._id} 
                 className="exercise-card" 
                 onClick={() => handleExerciseClick(exercise)}
               >

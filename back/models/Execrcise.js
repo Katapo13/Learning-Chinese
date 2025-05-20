@@ -11,7 +11,10 @@ const characterWriting = new Schema({
 }, { _id: false });
 
 const sentenceOrdering = new Schema({
-  sentences: [{ type: String, required: true }],
+  sentences: [{
+    id: { type: Number, required: true },
+    text: { type: String, required: true }
+  }],
   correctOrder: [{ type: Number, required: true }]
 }, { _id: false });
 
