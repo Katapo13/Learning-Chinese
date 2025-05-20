@@ -1,72 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Для переходов по маршрутам
 import { CheckSquare} from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import getLevelLabel from '../contexts/levelContext';
 import './css/Tests.css';
 
-const TestContent = ({ testId, onBackClick }) => {
-  const testQuestions = {
-    1: [
-      {
-        id: 1,
-        question: 'Как сказать "Привет" на китайском?',
-        options: ['你好 (nǐ hǎo)', '谢谢 (xiè xiè)', '再见 (zài jiàn)', '早上好 (zǎo shang hǎo)'],
-        correctAnswer: 0
-      },
-      {
-        id: 2,
-        question: 'Как будет "Спасибо" по-китайски?',
-        options: ['不客气 (bù kè qi)', '谢谢 (xiè xiè)', '对不起 (duì bu qǐ)', '没关系 (méi guān xi)'],
-        correctAnswer: 1
-      },
-      {
-        id: 3,
-        question: 'Как сказать "До свидания" на китайском?',
-        options: ['你好 (nǐ hǎo)', '谢谢 (xiè xiè)', '再见 (zài jiàn)', '早上好 (zǎo shang hǎo)'],
-        correctAnswer: 2
-      },
-      {
-        id: 4,
-        question: 'Как сказать "Добрый вечер" на китайском?',
-        options: ['晚上好(wǎnshàng hǎo)', '谢谢 (xiè xiè)', '再见 (zài jiàn)', '早上好 (zǎo shang hǎo)'],
-        correctAnswer: 0
-      },
-      {
-        id: 5,
-        question: 'Как сказать "Доброе утро" на китайском?',
-        options: ['你好 (nǐ hǎo)', '晚上好(wǎnshàng hǎo)', '再见 (zài jiàn)', '早上好 (zǎo shang hǎo)'],
-        correctAnswer: 3
-      },
-      {
-        id: 6,
-        question: 'Как сказать "Прошу прощения" на китайском?',
-        options: ['对不起 (duìbùqǐ)', '晚上好(wǎnshàng hǎo)', '恐怕 (kǒngpà)', '你好吗 (nǐ hǎo ma)'],
-        correctAnswer: 0
-      }
-    ],
-    2: [
-      {
-        id: 1,
-        question: 'Как сказать "Меню, пожалуйста" в ресторане?',
-        options: ['请给我菜单 (qǐng gěi wǒ cài dān)', '我要买单 (wǒ yào mǎi dān)', '好吃 (hǎo chī)', '服务员 (fú wù yuán)'],
-        correctAnswer: 0
-      },
-      {
-        id: 2,
-        question: 'Как попросить куриный суп в ресторане?',
-        options: ['我想要咖啡 (Wǒ xiǎng yào kāfēi)', '我要买单 (wǒ yào mǎi dān)', '好吃 (hǎo chī)', '我要鸡汤 (Wǒ yào jītāng)'],
-        correctAnswer: 3
-      }
-    ]
-  };
+ const TestContent = ({ test, onBackClick }) => {
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
-  const questions = testQuestions[testId] || [];
+  const questions = test?.questions || [];
   const question = questions[currentQuestion];
 
   const handleAnswerSelect = (answerIndex) => {
@@ -153,44 +100,32 @@ const TestContent = ({ testId, onBackClick }) => {
 const TestsPage = () => {
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [selectedTest, setSelectedTest] = useState(null);
-  
+  const [tests, setTests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  //получаем тесты с бд
+  useEffect(() => {
+    const fetchTests = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/test');
+        const data = await response.json();
+        setTests(data);
+        setLoading(false);
+      } catch (e) {
+        console.error('Ошибка загрузки тестов:', e);
+        setError('Не удалось загрузить тесты');
+        setLoading(false);
+      }
+    };
+    
+    fetchTests();
+  }, []);
+
   const handleBackClick = () => {
     setSelectedTest(null); // Сбрасываем выбранный тест
   };
-  const tests = [
-    {
-      id: 1,
-      title: 'Основные приветствия',
-      description: 'Тест на базовые китайские приветствия и вежливые выражения',
-      level: 'beginner',
-      questions: 10,
-      duration: '5-10 мин'
-    },
-    {
-      id: 2,
-      title: 'В ресторане',
-      description: 'Тест на лексику для заказа еды и общения в ресторане',
-      level: 'intermediate',
-      questions: 15,
-      duration: '10-15 мин'
-    },
-    {
-      id: 3,
-      title: 'Путешествия',
-      description: 'Тест на слова и фразы для путешествий по Китаю',
-      level: 'intermediate',
-      questions: 12,
-      duration: '10-12 мин'
-    },
-    {
-      id: 4,
-      title: 'Китайские идиомы',
-      description: 'Продвинутый тест на знание китайских идиом',
-      level: 'advanced',
-      questions: 20,
-      duration: '15-20 мин'
-    }
-  ];
+
+  
 
   const filteredTests = selectedLevel === 'all' 
     ? tests 
@@ -200,31 +135,12 @@ const TestsPage = () => {
     setSelectedTest(test);
   };
 
-
-  const getLevelLabel = (level) => {
-    switch(level) {
-      case 'beginner': return 'Начальный';
-      case 'intermediate': return 'Средний';
-      case 'advanced': return 'Продвинутый';
-      default: return level;
-    }
-  };
-
-  const getLevelClass = (level) => {
-    switch(level) {
-      case 'beginner': return 'testpage-level-beginner';
-      case 'intermediate': return 'testpage-level-intermediate';
-      case 'advanced': return 'testpage-level-advanced';
-      default: return '';
-    }
-  };
-
   if (selectedTest) {
     return (
       <div className="testpage-container">
         <Header />
         <TestContent 
-        testId={selectedTest.id} 
+        test={selectedTest} 
         onBackClick={handleBackClick} // Передаем функцию обратного вызова
         />
         <Footer />
@@ -258,16 +174,20 @@ const TestsPage = () => {
 
       <div className="testpage-grid">
         {filteredTests.map(test => (
-          <div key={test.id} className="testpage-card">
+          <div key={test._id} className="testpage-card">
             <div className="testpage-card-content">
               <h2>{test.title}</h2>
               <p>{test.description}</p>
               
               <div className="testpage-meta">
-                <span className={`testpage-level ${getLevelClass(test.level)}`}>
-                  {getLevelLabel(test.level)}
-                </span>
-                <span className="testpage-questions">{test.questions} вопросов</span>
+                <div className={`testpage-level ${
+                  test.level === 'beginner' ? 'testpage-level-beginner' :
+                  test.level === 'intermediate' ? 'testpage-level-intermediate' :
+                  'testpage-level-advanced'
+                 }`}>
+                    {getLevelLabel(test.level)}
+                </div>
+                <span className="testpage-questions">{test.questions.length} вопросов</span>
                 <span className="testpage-duration">{test.duration}</span>
               </div>
               
