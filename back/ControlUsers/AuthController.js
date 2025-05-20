@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const Role = require('../models/Role');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); //для хэширования
 const { secret } = require('./config');
 
 const generateAccessToken = (id, roles) => {
