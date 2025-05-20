@@ -4,6 +4,7 @@ const cors = require('cors') // нужно так как бэк и фронт н
 const authRouter = require('./ControlUsers/authRouter')
 const dictionaryRouter = require('./ControlDictionary/dictionaryRouter')
 const textRouter = require('./ControlText/textRouter')
+const testRouter = require('./ControlTest/testRouter')
 const port = process.env.PORT || 5000
 
 const app = express()
@@ -11,9 +12,11 @@ app.use(cors()); //подклбючаем корс
 
 //позволяет express распознавать json в запросах
 app.use(express.json())
+
 app.use("/api/auth", authRouter)//url по которому будет слушаться для авторизации
 app.use("/api", dictionaryRouter)//url по которому будет слушаться для словаря
 app.use("/api", textRouter)//url по которому будет слушаться для текстов
+app.use("/api", testRouter)//url по которому будет слушаться для тестов 
 
 
 const start = async () => {
