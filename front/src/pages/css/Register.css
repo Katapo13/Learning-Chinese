@@ -16,6 +16,16 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
   
+  .back-link{
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #374151;
+  }
+
+  .back-link:hover {
+    color: #a01515;
+  }
+  
   .register-title {
     text-align: center;
     color: #a01515;
