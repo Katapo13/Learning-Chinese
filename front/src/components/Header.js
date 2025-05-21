@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Book, User, Menu, X, LogOut } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext'; // Контекст авторизации
 import './Header.css';
 
 const Header = () => {
@@ -24,6 +24,8 @@ const Header = () => {
               <Book className="brand-icon" />
               <span className="brand-text-h">汉语学习</span>
             </Link>
+            {/* Ссылки в зависимости от авторизации */}
+            {user ? (
             <div className="header-links">
               <Link to="/" className="header-link">Главная</Link>
               <Link to="/dictionary" className="header-link">Словарь</Link>
@@ -31,6 +33,17 @@ const Header = () => {
               <Link to="/texts" className="header-link">Тексты</Link>
               <Link to="/exercises" className="header-link">Упражнения</Link>
             </div>
+            ) : (
+            <div className="header-links">
+              <Link to="/" className="header-link">Главная</Link>
+              <Link to="/login" className="header-link">Словарь</Link>
+              <Link to="/login" className="header-link">Тесты</Link>
+              <Link to="/login" className="header-link">Тексты</Link>
+              <Link to="/login" className="header-link">Упражнения</Link>
+            </div>
+              )}
+              
+            
           </div>
           
           <div className="user-actions">

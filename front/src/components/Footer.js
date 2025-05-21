@@ -1,8 +1,14 @@
 import React from 'react';
 import { Book, Mail } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext'; // Контекст авторизации
 import './Footer.css';
 
 const Footer = () => {
+  const { user, logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -18,6 +24,9 @@ const Footer = () => {
           </div>
           
           <div className="footer-links">
+
+            {/* Ссылки в зависимости от авторизации */}
+            {user ? (
             <div className="links-section">
               <h3>Быстрые ссылки</h3>
               <ul className="links-list">
@@ -28,7 +37,19 @@ const Footer = () => {
                 <li className="link-item"><a href="/exercises">Упражнения</a></li>
               </ul>
             </div>
-            
+            ):(
+            <div className="links-section">
+              <h3>Быстрые ссылки</h3>
+              <ul className="links-list">
+                <li className="link-item"><a href="/">Главная</a></li>
+                <li className="link-item"><a href="/login">Словарь</a></li>
+                <li className="link-item"><a href="/login">Тесты</a></li>
+                <li className="link-item"><a href="/login">Тексты</a></li>
+                <li className="link-item"><a href="/login">Упражнения</a></li>
+              </ul>
+            </div>
+            )}
+
             <div className="links-section">
               <h3>Ссылка на репозиторий</h3>
               <div className="contact-section">
