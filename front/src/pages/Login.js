@@ -20,7 +20,7 @@ const Login = () => {
       try {
         setError('');
         setLoading(true);
-        await login(email, password); // теперь login отправляет запрос
+        await login(email, password); 
         navigate('/');
       } catch (err) {
         console.error(err);

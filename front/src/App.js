@@ -6,6 +6,8 @@ import Tests from './pages/Tests';
 import Dictionary from './pages/Dictionary';
 import Texts from './pages/Texts.js';
 import Exercises from './pages/Exercises.js';
+import Profile from './pages/Profile.js';
+import ProtectedRoute from './components/ProtectedRoute.js';
 
 function App() {
   return (
@@ -16,10 +18,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/tests" element={<Tests />} />
-          <Route path="/dictionary" element={<Dictionary />} />
-          <Route path="/texts" element={<Texts />} />
-          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/tests" element={<ProtectedRoute><Tests /></ProtectedRoute>} />
+          <Route path="/dictionary" element={<ProtectedRoute><Dictionary /></ProtectedRoute>} />
+          <Route path="/texts" element={<ProtectedRoute><Texts /></ProtectedRoute>} />
+          <Route path="/exercises" element={<ProtectedRoute><Exercises /></ProtectedRoute>} />
+          {/* <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> */}
         </Routes>
       </main>
     </div>
