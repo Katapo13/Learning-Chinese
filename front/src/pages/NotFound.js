@@ -1,15 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './css/NotFound.css'; 
+import './css/NotFound.css';
 
 const NotFoundPage = () => {
   return (
     <div className="not-found-container">
-      <h1>404 - Страница не найдена</h1>
-      <p>Извините, запрашиваемая страница не существует.</p>
-      <Link to="/" className="home-link">
-        Вернуться на главную
-      </Link>
+      <div className="not-found-content">
+        <h1>404</h1>
+        <h2>Страница не найдена</h2>
+        <p>
+          Возможно, эта страница была удалена или вы ввели неправильный адрес.
+        </p>
+        <Link to="/" className="home-link">
+          На главную
+        </Link>
+      </div>
     </div>
   );
 };

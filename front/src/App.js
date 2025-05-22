@@ -8,7 +8,7 @@ import Texts from './pages/Texts.js';
 import Exercises from './pages/Exercises.js';
 import Profile from './pages/Profile.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
-
+import NotFoundPage from './pages/NotFound.js';
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -23,6 +23,7 @@ function App() {
           <Route path="/texts" element={<ProtectedRoute><Texts /></ProtectedRoute>} />
           <Route path="/exercises" element={<ProtectedRoute><Exercises /></ProtectedRoute>} />
           {/* <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} /> */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
     </div>
