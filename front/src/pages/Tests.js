@@ -149,15 +149,19 @@ const TestsPage = () => {
   }
 
   return (
+    <div>
+       <Header/>
+      
     <div className="testpage-container">
-      <Header/>
-
+     
       <div className="testpage-header-section">
+      <div className="tests-header">
         <h1>
           <CheckSquare size={32} />
           Тесты
         </h1>
-        
+      </div>
+
         <div>
           <select
             className="testpage-select-input"
@@ -202,7 +206,9 @@ const TestsPage = () => {
         ))}
       </div>
 
-      <Footer/>
+      
+    </div>
+    <Footer/>
     </div>
   );
 };

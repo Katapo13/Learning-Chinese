@@ -3,7 +3,6 @@ import { CheckCircle, X, HelpCircle } from 'lucide-react';
 import { List } from 'lucide-react'; // Иконка списка
 import { useAuth } from '../contexts/AuthContext';
 import getLevelLabel from '../contexts/levelContext';
-import getInformationLabel from '../contexts/informationExerciseContext';
 import getTypeLabel from '../contexts/typeExerciseContext';
 import './css/Exercises.css';
 import Header from '../components/Header'; // Компонент шапки
@@ -152,8 +151,10 @@ const Exercises = () => {
 
 
   return (
+    <div>
+      <Header/>
     <div className="exercises-container">
-    <Header/>
+    
       {!selectedExercise ? (
         <>
           <div className="exercises-header">
@@ -199,7 +200,7 @@ const Exercises = () => {
                     {getTypeLabel(exercise.type)}
                   </span>
                 </div>
-                <p className="exercise-instructions">{exercise.instructions}</p>
+                <p className="exercise-instructions">{exercise.information}</p>
               </div>
             ))}
           </div>
@@ -410,7 +411,9 @@ const Exercises = () => {
           </div>
         </div>
       )}
-      <Footer/>
+      
+    </div>
+    <Footer/>
     </div>
   );
 };

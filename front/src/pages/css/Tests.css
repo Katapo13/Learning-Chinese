@@ -2,9 +2,14 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .testpage-header-section {
+  margin-top: 1rem;
+  padding-right: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,21 +18,27 @@
 }
 
 .testpage-header-section h1 {
+  padding-left: 1rem;
   font-size: 2rem;
   font-weight: bold;
   color: #2c3e50;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .testpage-header-section h1 svg {
   margin-right: 0.5rem;
 }
 
+.tests-title {
+  font-size: 1.875rem;
+   font-weight: 700;
+}
+
+
 .testpage-grid {
   display: grid;
   gap: 1.5rem;
-  padding: 0 1rem;
 }
 
 @media (min-width: 768px) {
@@ -227,7 +238,8 @@
   
   .testpage-select-input {
       width: 100%;
-      margin-top: 1rem;
+      /*margin-top: 1rem;*/
+      display: flex;
   }
   
   .testpage-content {

@@ -49,9 +49,9 @@ const Header = () => {
           <div className="user-actions">
           {user ? (
             <div className="user-actions">
-              <Link to="/profile" className="user-profile">
+              <Link to="/" className="user-profile">
                 <User className="user-icon-man" />
-                <span>{user.name}</span>
+                <span>{user.userName}</span>
               </Link>
               <button onClick={handleLogout} className="logout-btn">
                 <LogOut className="user-icon-logout" />

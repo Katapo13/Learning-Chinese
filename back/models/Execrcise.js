@@ -29,12 +29,12 @@ const fillInBlanks = new Schema({
 
 // Главная схема упражнения
 const Exercise = new Schema({
-  type: {type: String, //enum: ['character-writing', 'sentence-ordering', 'fill-in-blanks'], 
+  type: {type: String,  
         required: true
   },
   title: { type: String, required: true },
-  level: {type: String, required: true
-  },
+  level: {type: String, required: true},
+  information: {type: String, required: true},
   content: {type: Schema.Types.Mixed, required: true }
 });
 
